@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=SUSE:wght@100..800&display=swap');
+
+:root {
+    --primary-color: #2ba166;
+    --button-color-dark: #303030;
+    --bg-color: #292929;
+    --input-color: #353535;
+    --text-color: rgb(223, 223, 223);
+}
+
+:root {
+    --background: #f0f2f5;
+    --background-modal: #f0f2f5;
+
+    --link-light-green: #71D59A;
+    /*--link-normal-green: #000;*/
+    --link-dark-green: #239954;
+
+
+    --light-green: #71D59A;
+    --normal-green: #2ECC71;
+    --dark-green: #294D38;
+
+    --light-red: #EC7171;
+    --normal-red: #E83F5B;
+    --dark-red: #693232;
+
+    --light-blue: #969cb3;
+    /*--normal-blue: #000;*/
+    --dark-blue: #363f5f;
+
+    --light-green-syphrao: #71D59A;
+    --normal-green-syphrao: #2ECC71;
+    --dark-green-syphrao: #294D38;
+
+    --money-green: #12a454;
+    --money-red: #e92929;
+
+    --color-modal-overlay: rgba(0, 0, 0, 0.7);
+    --shadow: #999;
+}
+
+* {
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    border: none;
+    outline: none;
+    font-family: "SUSE", sans-serif;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--bg-color);
+}
+
+header {
+    width: 70vw;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .actions {
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+header .actions .action-button {
+    padding: 0 1vw;
+    height: 4vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5vw;
+    font-size: 0.8vw;
+    border-radius: 0.5vw;
+    background-color: var(--button-color-dark);
+    transition: all ease-in-out 0.5s;
+}
+
+header .actions .action-button:hover {
+    background-color: var(--primary-color);
+}
+
+header .actions .action-button img {
+    width: 0.8vw;
+}
+
+main {
+    width: 70vw;
+    height: 90vh;
+}
+
+main .filters form {
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9vw;
+}
+
+main .filters form select {
+    width: 10vw;
+    height: 4vh;
+    border-radius: 0.5vw;
+    background-color: var(--input-color);
+    font-size: 0.8vw;
+}
+
+main .filters form input {
+    width: 10vw;
+    height: 4vh;
+    border-radius: 0.5vw;
+    padding: 0 0.2vw;
+    background-color: var(--input-color);
+    font-size: 0.8vw;
+}
+
+main .filters form button {
+    width: 10vw;
+    height: 4vh;
+    border-radius: 0.5vw;
+    background-color: var(--primary-color);
+    font-size: 0.8vw;
+}
+
+
+main .transactions {
+    height: 68vh;
+    width: 100%;
+    margin: 2vh 0;
+    overflow-y: auto; /* Adiciona barra de rolagem se necessário */
+}
+
+main .transactions table {
+    width: 100%; /* Tabela ocupa 100% da largura da section */
+    margin: 0;
+}
+
+
+main .dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 12vh;
+}
+
+main .dashboard .card {
+    width: 11vw;
+    height: 12vh;
+    border-radius: 0.5vw;
+    background-color: var(--input-color);
+    padding: 0.5rem
+}
+
+main .dashboard .card .title-card {
+    display: flex;
+    justify-content: space-between;
+}
+
+main .dashboard .card .title-card img {
+    width: 1vw;
+}
