@@ -68,14 +68,14 @@ header {
 }
 
 header .actions {
-    width: 50%;
+    width: 70%;
     display: flex;
     justify-content: space-between;
 }
 
 header .actions .action-button {
     padding: 0 1vw;
-    height: 4vh;
+    height: 5vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -90,8 +90,15 @@ header .actions .action-button:hover {
     background-color: var(--primary-color);
 }
 
-header .actions .action-button img {
-    width: 0.8vw;
+header .actions .action-button i {
+    color: var(--primary-color);
+    padding: 0.2vw 0;
+    transition: all ease-in-out 0.5s;
+}
+
+header .actions .action-button:hover i {
+    color: var(--text-color);
+    padding: 0.2vw 0;
 }
 
 main {
@@ -165,8 +172,17 @@ main .dashboard .card {
 main .dashboard .card .title-card {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
-main .dashboard .card .title-card img {
-    width: 1vw;
+main .dashboard .card .title-card i {
+    color: var(--primary-color);
+}
+
+main .dashboard .card .body-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7vh;
+    font-size: 1.2vw;
 }

@@ -1,142 +1,305 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>EZS Finanças</title>
 
-    <!-- Importação do bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+        <!-- jQuery e jQuery Mask Plugin -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
-    <!-- Importação da biblioteca datatables -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.0/css/dataTables.dataTables.css"/>
+        <!-- Font Awesone -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="../assets/css/index.css">
-    <link rel="stylesheet" href="../assets/css/modals.css">
-</head>
-<body>
-    <header>
-        <div class="title">EZS Finanças</div>
-        <div class="actions">
-            <button type="button" data-bs-toggle="modal" data-bs-target="#modalCategories" class="action-button"><img src="/assets/svg/plus-solid.svg"> Categoria</button>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#modalAccounts" class="action-button" class="action-button"><img src="/assets/svg/plus-solid.svg"> Conta</button>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#modalInvestiments" class="action-button" class="action-button"><img src="/assets/svg/plus-solid.svg"> Investimento</button>
-            <button type="button" data-bs-toggle="modal" data-bs-target="#modalTransactions" class="action-button" class="action-button"><img src="/assets/svg/plus-solid.svg"> Transação</button>
-        </div>
-    </header>
-    <main>
-        <section class="filters">
-            <form action="">
-                <select name="" id="">
-                    <option value="">Todos os bancos</option>
-                </select>
-                <select name="" id="">
-                    <option value="">Todas as categorias</option>
-                </select>
-                <select name="" id="">
-                    <option value="">Todos os métodos</option>
-                    <option value="">Pix</option>
-                    <option value="">TED</option>
-                    <option value="">Crédito</option>
-                    <option value="">Débito</option>
-                </select>
-                <div>De <input type="date" name="initialDateInput" id="initialDateInput"></div>
-                <div>Até <input type="date" name="finalDateInput" id="finalDateInput"></div>
-                <button type="submit">Filtrar</button>
-            </form>
-        </section>
-        <section class="transactions">
-            <table id="tableTransactions">
-                <thead>
-                    <tr>
-                        <th>Dia</th>
-                        <th>Valor</th>
-                        <th>Descrição</th>
-                        <th>Categoria</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-            </table>
-        </section>
-        <section class="dashboard">
-            <div class="card">
-                <div class="title-card">Entradas <img src="/assets/svg/circle-up-regular.svg"></div>
-                <div class="body-card"></div>
+        <!-- Importação do bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+        <!-- Importação da biblioteca datatables -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/2.1.0/css/dataTables.dataTables.css"/>
+        <link rel="stylesheet" href="../assets/css/modals.css">
+        <link rel="stylesheet" href="../assets/css/index.css">
+    </head>
+    <body>
+        <header>
+            <div class="title">EZS Finanças</div>
+            <div class="actions">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modalTarget" class="action-button"><i class="fa-solid fa-bullseye"></i>Metas</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modalTransfer" class="action-button"><i class="fa-solid fa-money-bill-transfer"></i></i>Transferir</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modalCategories" class="action-button"><i class="fa-solid fa-clipboard-list"></i>Categoria</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modalAccounts" class="action-button" class="action-button"><i class="fa-solid fa-building-columns"></i>Conta</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modalInvestiments" class="action-button" class="action-button"><i class="fa-solid fa-chart-line"></i>Investimento</button>
+                <button type="button" data-bs-toggle="modal" data-bs-target="#modalTransaction" class="action-button" class="action-button"><i class="fa-solid fa-dollar-sign"></i>Transação</button>
             </div>
-            <div class="card">
-                <div class="title-card">Saídas <img src="/assets/svg/circle-down-regular.svg"></div>
-            </div>
-            <div class="card">
-                <div class="title-card">Balanço <img src="/assets/svg/scale-balanced-solid.svg"></div>
-            </div>
-            <div class="card">
-                <div class="title-card">Investimentos <img src="/assets/svg/chart-line-solid.svg"></div>
-            </div>
-            <div class="card">
-                <div class="title-card">Saldo em bancos <img src="/assets/svg/wallet-solid.svg"></div>
-            </div>
-            <div class="card">
-                <div class="title-card">Saldo total <img src="/assets/svg/sack-dollar-solid.svg"></div>
-            </div>
-        </section>
-    </main>
+        </header>
+        <main>
+            <section class="filters">
+                <form id="formFilter">
+                    <select id="accountTransaction">
+                        <option value="all">Todos os bancos</option>
+                    </select>
+                    <select id="categoryTransaction">
+                        <option value="all">Todas as categorias</option>
+                    </select>
+                    <select id="methodTransaction">
+                        <option value="all">Todos os métodos</option>
+                        <option value="Pix">Pix</option>
+                        <option value="TED">TED</option>
+                        <option value="Credito">Crédito</option>
+                        <option value="Debito">Débito</option>
+                    </select>
+                    <div>De <input type="date" id="initialDateTransaction"></div>
+                    <div>Até <input type="date" id="finalDateTransaction"></div>
+                    <button type="submit">Filtrar</button>
+                </form>
+            </section>
+            <section class="transactions">
+                <table id="tableTransactions">
+                    <thead>
+                        <tr>
+                            <th>Dia</th>
+                            <th>Valor</th>
+                            <th>Descrição</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                </table>
+            </section>
+            <section class="dashboard">
+                <div class="card">
+                    <div class="title-card">Entradas <i class="fa-solid fa-arrow-up"></i></div>
+                    <div class="body-card">
+                        <span id="entries"></span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="title-card">Saídas <i class="fa-solid fa-arrow-down"></i></div>
+                    <div class="body-card">
+                        <span id="exits"></span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="title-card">Balanço <i class="fa-solid fa-scale-balanced"></i></div>
+                    <div class="body-card">
+                        <span id="balance"></span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="title-card">Investimentos <i class="fa-solid fa-file-invoice-dollar"></i></div>
+                </div>
+                <div class="card">
+                    <div class="title-card">Saldo em bancos <i class="fa-solid fa-sack-dollar"></i></div>
+                </div>
+                <div class="card">
+                    <div class="title-card">Saldo total <i class="fa-solid fa-wallet"></i></div>
+                </div>
+            </section>
+        </main>
 
 
-    <!--Modal de Categorias-->
-    <div class="modal fade" id="modalCategories" tabindex="-1" aria-labelledby="modalCategoriesLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-category">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--Modal de Categorias-->
-    <div class="modal fade" id="modalAccounts" tabindex="-1" aria-labelledby="modalAccountsLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-category">
-                Contas
-            </div>
-        </div>
-        </div>
-    </div>
-
-    <!--Modal de Categorias-->
-    <div class="modal fade" id="modalInvestiments" tabindex="-1" aria-labelledby="modalInvestimentsLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-category">
-            Investimentos
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!--Modal de Categorias-->
-    <div class="modal fade" id="modalTransactions" tabindex="-1" aria-labelledby="modalTransactionsLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-category">
-                Transação
+        <!--Modal de Metas-->
+        <div class="modal fade" id="modalTarget" tabindex="-1" aria-labelledby="modalTargetLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Metas</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="switch-months">
+                            <button class="change-month-btn" id="previousMonth"><i class="fa-solid fa-chevron-left"></i></button>
+                            <span class="month-span" id="currentMonth"></span>
+                            <button class="change-month-btn" id="nextMonth"><i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <div class="modal-table">
+                        <table id="tableTargets">
+                            <thead>
+                                <tr>
+                                    <th>Categoria</th>
+                                    <th>Meta</th>
+                                    <th>Gasto</th>
+                                    <th>Diferença</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> <!-- Importação da biblioteca datatables -->
-    <script src="/controllers/render.js"></script>
-</body>
+        <!--Modal de Categorias-->
+        <div class="modal fade" id="modalTransfer" tabindex="-1" aria-labelledby="modalTransferLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Transferir entre contas</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-modal" id="formTransfer">
+                            <select class="select-modal" id="transactionAccountOrigin">
+                                <!-- Dados inseridos com js -->
+                            </select>
+                            <i class="fa-solid fa-angles-down"></i>
+                            <select class="select-modal" id="transactionAccountDestiny">
+                                <!-- Dados inseridos com js -->
+                            </select>
+                            <input class="input-modal" type="text" placeholder="Valor" id="transferValue" onkeypress="$(this).mask('###0.00', {reverse: true});">
+                            <button type="submit" class="button-modal">Salvar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal de Categorias-->
+        <div class="modal fade" id="modalCategories" tabindex="-1" aria-labelledby="modalCategoriesLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Categoria</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-modal" id="formCategory">
+                            <input type="hidden" id="categoryId" value="">
+                            <input class="input-modal" type="text" placeholder="Categoria" id="categoryName">
+                            <input class="input-modal" type="text" placeholder="Meta" id="categoryTarget" onkeypress="$(this).mask('###0.00', {reverse: true});">
+                            <button type="submit" class="button-modal">Salvar</button>
+                        </form>
+                    </div>
+                    <div class="modal-table">
+                        <table id="tableCategoriesModal">
+                            <thead>
+                                <tr>
+                                    <th>Categoria</th>
+                                    <th>Meta</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal de Contas-->
+        <div class="modal fade" id="modalAccounts" tabindex="-1" aria-labelledby="modalAccountsLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Categoria</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-modal" id="formAccount">
+                            <input type="hidden" id="accountId" value="">
+                            <input class="input-modal" type="text" placeholder="Banco" id="accountName">
+                            <input class="input-modal" type="text" placeholder="Valor" id="accountValue" onkeypress="$(this).mask('###0.00', {reverse: true});">
+                            <button type="submit" class="button-modal">Salvar</button>
+                        </form>
+                    </div>
+                    <div class="modal-table">
+                        <table id="tableAccountsModal">
+                            <thead>
+                                <tr>
+                                    <th>Banco</th>
+                                    <th>Valor</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal de Investimentos-->
+        <div class="modal fade" id="modalInvestiments" tabindex="-1" aria-labelledby="modalInvestimentsLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Categoria</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-modal" id="formCategory">
+
+                            <input class="input-modal" type="text" placeholder="Meta">
+                            <button type="submit" class="button-modal">Salvar</button>
+                        </form>
+                    </div>
+                    <div class="modal-table">
+                        <table id="tableCategoriesModal">
+                            <thead>
+                                <tr>
+                                    <th>Categoria</th>
+                                    <th>Meta</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Modal de Transação-->
+        <div class="modal fade" id="modalTransaction" tabindex="-1" aria-labelledby="modalTransactionLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Transação</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-modal" id="formTransaction">
+                            <input type="hidden" id="transactionId" value="">
+                            <select class="select-modal" id="transactionMethod">
+                                <option value="Credito">Crédito</option>
+                                <option value="Debito">Débito</option>
+                                <option value="Pix">Pix</option>
+                                <option value="Boleto">Boleto</option>
+                            </select>
+                            <select class="select-modal" id="transactionCategory">
+                                <!-- Dados inseridos com js -->
+                            </select>
+                            <select class="select-modal" id="transactionAccount">
+                                <!-- Dados inseridos com js -->
+                            </select>
+                            <div class="input-date">
+                                <input type="date" class="input-modal" id="transactionDate">
+                                <button type="button" id="setDateInput">Hoje</button>
+                            </div>
+                            <input type="text" class="input-modal" id="transactionValue" placeholder="Valor da transação" onkeypress="$(this).mask('###0.00', {reverse: true});">
+                            <textarea id="transactionDescription" placeholder="Descreva a transação"></textarea>
+                            <div class="radio-input">
+                                <label>
+                                    <input value="1" name="value-radio" type="radio"/>
+                                    <span>Receber</span>
+                                </label>
+                                <label>
+                                    <input value="0" name="value-radio" type="radio"/>
+                                    <span>Pagar</span>
+                                </label>
+                                <span class="selection"></span>
+                            </div>
+                            <button type="submit" class="button-modal">Salvar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> <!-- Importação da biblioteca datatables -->
+        <script src="../controllers/render.js"></script>
+        <script src="../controllers/category_controllers.js"></script>
+        <script src="../controllers/account_controller.js"></script>
+        <script src="../controllers/transaction_controller.js"></script>
+    </body>
 </html>
