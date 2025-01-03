@@ -12,7 +12,7 @@ $('#formTransaction').submit(function(event) {
     var transactionType = $('input[name="value-radio"]:checked').val().trim();
 
     // Verifica se todos os campos obrigatórios estão preenchidos
-    if (!transactionMethod || !transactionCategory || !transactionAccount || !transactionDate || isNaN(transactionValue) || !transactionDescription || !transactionType) {
+    if (!transactionMethod || !transactionCategory || !transactionAccount || !transactionDate || isNaN(transactionValue) || !transactionType) {
         alert('Por favor, preencha todos os campos obrigatórios corretamente.');
         return;
     }
@@ -41,11 +41,12 @@ $('#formTransaction').submit(function(event) {
             
             // Limpa os campos do formulário após sucesso
             $('#transactionId').val('');
-            $('#transactionDate').val('');
+            // $('#transactionDate').val('');
             $('#transactionValue').val('');
             $('#transactionDescription').val('');
             
             filterTransactions();
+            getPatrimony();
         },
         error: function(xhr, status, error) {
             console.error('Erro ao adicionar/editar transação:', error, status);
@@ -75,6 +76,7 @@ $('#tableTransactions').on('click', '#deleteBtn', function deleteCategory() {
         dataType: 'json',
         success: function() {
             filterTransactions();
+            getPatrimony();
         },
         error: function(xhr, status, error) {
             console.error('Erro ao obter detalhes do usuário:', error);

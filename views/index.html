@@ -89,12 +89,21 @@
                 </div>
                 <div class="card">
                     <div class="title-card">Investimentos <i class="fa-solid fa-file-invoice-dollar"></i></div>
+                    <div class="body-card">
+                        <span id="investimentPatrimony">R$ 0.00</span>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="title-card">Saldo em bancos <i class="fa-solid fa-sack-dollar"></i></div>
+                    <div class="body-card">
+                        <span id="accountPatrimony"></span>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="title-card">Saldo total <i class="fa-solid fa-wallet"></i></div>
+                    <div class="body-card">
+                        <span id="totalPatrimony"></span>
+                    </div>
                 </div>
             </section>
         </main>
@@ -131,7 +140,7 @@
             </div>
         </div>
 
-        <!--Modal de Categorias-->
+        <!--Modal de Transferência-->
         <div class="modal fade" id="modalTransfer" tabindex="-1" aria-labelledby="modalTransferLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -192,7 +201,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Categoria</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Conta</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -216,7 +225,6 @@
                     </div>
                 </div>
                 </div>
-            </div>
         </div>
 
         <!--Modal de Investimentos-->
@@ -284,7 +292,7 @@
                                     <span>Receber</span>
                                 </label>
                                 <label>
-                                    <input value="0" name="value-radio" type="radio"/>
+                                    <input checked value="0" name="value-radio" type="radio"/>
                                     <span>Pagar</span>
                                 </label>
                                 <span class="selection"></span>

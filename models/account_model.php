@@ -17,13 +17,6 @@
             header('Content-Type: application/json');
             echo json_encode($resultQuery);
         }
-        function sumAccounts() {
-            $sql = $this->connection->query("SELECT SUM(account_value) AS total_accounts_value FROM $this->table");
-            $resultQuery = $sql->fetchAll(PDO::FETCH_ASSOC);
-    
-            // Retorne os dados como JSON
-            echo json_encode($resultQuery);
-        }
 
         public function addAccount() {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -133,6 +126,66 @@
                 }
             }
         }
+
+        function transferValue() {
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $accountOriginId = $_POST['accountOriginId'] ?? null;
+                $accountDestinyId = $_POST['accountDestinyId'] ?? null;
+                $transferValue = $_POST['transferValue'] ?? null;
+        
+                if ($accountDestinyId && $accountOriginId && $transferValue) {
+                    try {
+                        // Iniciar a transação
+                        $this->connection->beginTransaction();
+        
+                        // Subtrair o valor da conta de origem
+                        $sql1 = "UPDATE account
+                                 SET account_value = account_value - :transferValue
+                                 WHERE account_id = :accountOriginId";
+                        $stmt1 = $this->connection->prepare($sql1);
+                        $stmt1->bindParam(':accountOriginId', $accountOriginId);
+                        $stmt1->bindParam(':transferValue', $transferValue);
+                        $stmt1->execute();
+        
+                        // Adicionar o valor à conta de destino
+                        $sql2 = "UPDATE account
+                                 SET account_value = account_value + :transferValue
+                                 WHERE account_id = :accountDestinyId";
+                        $stmt2 = $this->connection->prepare($sql2);
+                        $stmt2->bindParam(':accountDestinyId', $accountDestinyId);
+                        $stmt2->bindParam(':transferValue', $transferValue);
+                        $stmt2->execute();
+        
+                        // Se tudo correr bem, commit a transação
+                        $this->connection->commit();
+        
+                        // Retornar sucesso
+                        header('Content-Type: application/json');
+                        echo json_encode(array(
+                            'accountOriginId' => $accountOriginId,
+                            'accountDestinyId' => $accountDestinyId,
+                            'transferValue' => $transferValue
+                        ));
+                    } catch (Exception $e) {
+                        // Caso ocorra algum erro, fazer rollback
+                        $this->connection->rollBack();
+                        echo json_encode(array('error' => 'Erro na transação: ' . $e->getMessage()));
+                    }
+                } else {
+                    echo json_encode(array('error' => 'Dados incompletos'));
+                }
+            }
+        }
+        
+        function sumAccountValues() {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $sql = $this->connection->query("SELECT SUM(account_value) AS total_accounts_value FROM $this->table");
+                $resultQuery = $sql->fetchAll(PDO::FETCH_ASSOC);
+        
+                // Retorne os dados como JSON
+                echo json_encode($resultQuery);
+            }
+        }
     }
 ?>
 
@@ -155,11 +208,14 @@ if (isset($_GET['action'])) {
         case 'editAccount':
             $model->editAccount();
             break;
-        case 'sumAccounts':
-            $model->sumAccounts();
-            break;
         case 'deleteAccount':
             $model->deleteAccount();
+            break;
+        case 'transferValue':
+            $model->transferValue();
+            break;
+        case 'sumAccountValues':
+            $model->sumAccountValues();
             break;
         default:
             echo json_encode(array('error' => 'Ação inválida'));

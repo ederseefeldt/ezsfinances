@@ -27,6 +27,8 @@ $('#formAccount').submit(function(event) {
             $('#accountId').val('');
             $('#accountName').val('');
             $('#accountValue').val('');
+
+            getPatrimony();
         },
         error: function(xhr, status, error) {
             console.error('Erro ao adicionar/editar conta:', error, status);
@@ -64,6 +66,24 @@ $('#formTransfer').submit(function(event) {
         return;
     }
 
+    $.ajax({
+        type: 'POST',
+        url: '../models/account_model.php?action=transferValue',
+        data: transferData,
+        dataType: 'json',
+        success: function(response) {
+            console.log(response);
+            $('#modalTransfer').modal('hide');
+            $('#transactionAccountOrigin').val('');
+            $('#transactionAccountDestiny').val('');
+            $('#transferValue').val('');
+        },
+        error: function(xhr, status, error) {
+            console.error('Erro ao adicionar/editar conta:', error, status);
+            alert('Ocorreu um erro. Por favor, tente novamente.');
+        }
+    });
+
 });
 
 $('#tableAccountsModal').on('click', '#deleteBtn', function deleteCategory() {
@@ -82,6 +102,8 @@ $('#tableAccountsModal').on('click', '#deleteBtn', function deleteCategory() {
             $('#accountId').val('');
             $('#accountName').val('');
             $('#accountValue').val('');
+
+            getPatrimony();
         },
         error: function(xhr, status, error) {
             console.error('Erro ao obter detalhes do usuário:', error);

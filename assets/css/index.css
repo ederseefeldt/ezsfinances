@@ -182,7 +182,7 @@ main .dashboard .card .title-card i {
 main .dashboard .card .body-card {
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: end;
     height: 7vh;
     font-size: 1.2vw;
 }

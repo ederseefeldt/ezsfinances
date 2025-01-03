@@ -1,4 +1,9 @@
 var tableTransactions;
+var tableModalCategory;
+var tableModalAccount;
+
+var categories;
+var accounts;
 
 $(document).ready(function() {
     const date = new Date();
@@ -19,19 +24,48 @@ $(document).ready(function() {
         finalDateTransaction: formattedFinalDate
     }
 
+    $.ajax({
+        type: 'GET',
+        url: '../models/category_model.php?action=getCategory',
+        dataType: 'json',
+        success: function(response) {
+            // categories = response;
+            response.forEach(function(category) {
+                $('#categoryTransaction').append(new Option(category.category_name, category.category_id));
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Ocorreu um erro na solicitação AJAX:', xhr.status);
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: '../models/account_model.php?action=getAccount',
+        dataType: 'json',
+        success: function(response) {
+            // accounts = response;
+            response.forEach(function(account) {
+                $('#accountTransaction').append(new Option(account.account_name, account.account_id));
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Ocorreu um erro na solicitação AJAX:', xhr.status)
+        }
+    });
+
     getTransactions(formFilter);
+    getPatrimony(formFilter);
 });
 
 function getTransactions(formFilter) {
     if ($.fn.DataTable.isDataTable('#tableTransactions')) {
         tableTransactions.destroy();
     }
-
-    console.log(formFilter)
-
+    
     tableTransactions = $('#tableTransactions').DataTable({
         searching: false,
-        ordering: true,
+        ordering: false,
         info: false,
         paging: false,
         autoWidth: false,
@@ -84,18 +118,6 @@ function getTransactions(formFilter) {
         dataType: 'json',
         success: function(response) {
             console.log(response);
-            if (response && response.length > 0) {
-                // Se houver dados no response
-                $('#entries').html("R$ " + parseFloat(response[0].entries).toFixed(2));
-                $('#exits').html("R$ " + parseFloat(response[0].exits).toFixed(2));
-                $('#balance').html("R$ " + parseFloat(response[0].balance).toFixed(2));
-            } else {
-                // Se não houver dados, define como 0
-                $('#entries').html("R$ 0.00");
-                $('#exits').html("R$ 0.00");
-                $('#balance').html("R$ 0.00");
-            }
-
             tableTransactions.clear();
             tableTransactions.rows.add(response);
             tableTransactions.draw();
@@ -109,18 +131,73 @@ function getTransactions(formFilter) {
             console.error('Ocorreu um erro na solicitação AJAX:', xhr.status);
         }
     });
+
+    $.ajax({
+        type: 'GET',
+        url: '../models/transaction_model.php?action=getTransactionsValues',
+        data: formFilter,
+        dataType: 'json',
+        success: function(response) {
+            console.log(response);
+            if (response && response.length > 0) {
+                // Se houver dados no response
+                $('#entries').html("R$ " + parseFloat(response[0].entries || 0).toFixed(2));
+                $('#exits').html("R$ " + parseFloat(response[0].exits || 0).toFixed(2));
+                $('#balance').html("R$ " + parseFloat(response[0].balance || 0).toFixed(2));
+            } else {
+                // Se não houver dados ou se os valores forem NaN, define tudo como 0
+                $('#entries').html("R$ 0.00");
+                $('#exits').html("R$ 0.00");
+                $('#balance').html("R$ 0.00");
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Ocorreu um erro na solicitação AJAX:', xhr.status);
+            $('#entries').html("R$ 0.00");
+            $('#exits').html("R$ 0.00");
+            $('#balance').html("R$ 0.00");
+        }
+    });    
+}
+
+function getPatrimony() {
+    var accountPatrimony = 0;
+    var investimentPatrimony = 0; // Defina aqui o valor do patrimônio de investimentos, se necessário
+    var totalPatrimony;
+
+    $.ajax({
+        type: 'GET',
+        url: '../models/account_model.php?action=sumAccountValues',
+        dataType: 'json',
+        success: function(response) {
+            console.log(response);
+
+            if (response && response.length > 0 && response[0].total_accounts_value) {
+                accountPatrimony = parseFloat(response[0].total_accounts_value);
+            }
+
+            $('#accountPatrimony').html(`R$ ${accountPatrimony.toFixed(2)}`);
+
+            totalPatrimony = accountPatrimony + investimentPatrimony;
+
+            $('#totalPatrimony').html(`R$ ${totalPatrimony.toFixed(2)}`);
+        },
+        error: function(xhr, status, error) {
+            console.error('Ocorreu um erro na solicitação AJAX:', xhr.status);
+        }
+    });
 }
 
 //No momento que o modal é aberto, puxa os dados de categorias do banco
 $('#modalCategories').on('shown.bs.modal', function() {
     if ($.fn.DataTable.isDataTable('#tableCategoriesModal')) {
-        tableModal.destroy(); // Destruir a tabela DataTable existente
+        tableModalCategory.destroy();
     }
 
-    tableModal = $('#tableCategoriesModal').DataTable({
-        searching: true, // Caixa de busca
-        ordering: true, // Ordenação das colunas
-        info: false, // Informação sobre a tabela
+    tableModalCategory = $('#tableCategoriesModal').DataTable({
+        searching: true,
+        ordering: false,
+        info: false,
         paging: false,
         autoWidth: false,
         language: {
@@ -134,7 +211,6 @@ $('#modalCategories').on('shown.bs.modal', function() {
             {
                 data: 'category_target',
                 render: function(data, type, row) {
-                    // Formata o valor para duas casas decimais
                     return 'R$ ' + parseFloat(data).toFixed(2);
                 }
             },
@@ -156,9 +232,9 @@ $('#modalCategories').on('shown.bs.modal', function() {
         dataType: 'json',
         success: function(response) {
             //console.log(response);
-            tableModal.clear();
-            tableModal.rows.add(response);
-            tableModal.draw();
+            tableModalCategory.clear();
+            tableModalCategory.rows.add(response);
+            tableModalCategory.draw();
         },
         error: function(xhr, status, error) {
             console.error('Ocorreu um erro na solicitação AJAX:', xhr.status);
@@ -169,10 +245,10 @@ $('#modalCategories').on('shown.bs.modal', function() {
 //No momento que o modal é aberto, puxa os dados de contas do banco
 $('#modalAccounts').on('shown.bs.modal', function() {
     if ($.fn.DataTable.isDataTable('#tableAccountsModal')) {
-        tableModal.destroy();
+        tableModalAccount.destroy();
     }
 
-    tableModal = $('#tableAccountsModal').DataTable({
+    tableModalAccount = $('#tableAccountsModal').DataTable({
         searching: true,
         ordering: true,
         info: false,
@@ -211,9 +287,9 @@ $('#modalAccounts').on('shown.bs.modal', function() {
         dataType: 'json',
         success: function(response) {
             // console.log(response);
-            tableModal.clear()
-            tableModal.rows.add(response)
-            tableModal.draw()
+            tableModalAccount.clear()
+            tableModalAccount.rows.add(response)
+            tableModalAccount.draw()
         },
         error: function(xhr, status, error) {
             console.error('Ocorreu um erro na solicitação AJAX:', xhr.status)

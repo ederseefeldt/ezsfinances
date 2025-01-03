@@ -72,11 +72,7 @@
                         T.transaction_date, 
                         T.transaction_description, 
                         T.transaction_value,
-                        C.category_name, 
-                        SUM(CASE WHEN T.transaction_type = 0 THEN T.transaction_value ELSE 0 END) AS exits,
-                        SUM(CASE WHEN T.transaction_type = 1 THEN T.transaction_value ELSE 0 END) AS entries,
-                        SUM(CASE WHEN T.transaction_type = 1 THEN T.transaction_value ELSE 0 END) -
-                        SUM(CASE WHEN T.transaction_type = 0 THEN T.transaction_value ELSE 0 END) AS balance
+                        C.category_name 
                     FROM transaction T 
                     INNER JOIN category C ON T.transaction_category = C.category_id
                     WHERE T.transaction_date BETWEEN :initialDate AND :finalDate
@@ -95,6 +91,67 @@
         
                 // Adiciona GROUP BY
                 $sql .= " GROUP BY T.transaction_id";
+                $sql .= " ORDER BY T.transaction_date DESC";
+        
+                // Prepara a query
+                $stmt = $this->connection->prepare($sql);
+                $stmt->bindParam(':initialDate', $initialDateTransaction);
+                $stmt->bindParam(':finalDate', $finalDateTransaction);
+        
+                // Verifica se os valores não são "all" antes de vincular à query
+                if ($methodTransaction != "all") {
+                    $stmt->bindParam(':methodTransaction', $methodTransaction);
+                }
+                if ($categoryTransaction != "all") {
+                    $stmt->bindParam(':categoryTransaction', $categoryTransaction);
+                }
+                if ($accountTransaction != "all") {
+                    $stmt->bindParam(':accountTransaction', $accountTransaction);
+                }
+        
+                // Executa a query e busca os resultados
+                $stmt->execute();
+                $resultQuery = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+                // Retorna os dados como JSON
+                header('Content-Type: application/json');
+                echo json_encode($resultQuery);
+            } else {
+                // Retorna um erro se o método não for GET
+                header('Content-Type: application/json');
+                echo json_encode(array('error' => 'Método de requisição inválido'));
+            }
+        }
+
+        function getTransactionsValues() {
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+                $initialDateTransaction = $_GET['initialDateTransaction'] ?? null;
+                $finalDateTransaction = $_GET['finalDateTransaction'] ?? null;
+                $categoryTransaction = $_GET['categoryTransaction'] ?? "all";
+                $accountTransaction = $_GET['accountTransaction'] ?? "all";
+                $methodTransaction = $_GET['methodTransaction'] ?? "all";
+        
+                // Base da query
+                $sql = "
+                    SELECT
+                        SUM(CASE WHEN T.transaction_type = 0 THEN T.transaction_value ELSE 0 END) AS exits,
+                        SUM(CASE WHEN T.transaction_type = 1 THEN T.transaction_value ELSE 0 END) AS entries,
+                        SUM(CASE WHEN T.transaction_type = 1 THEN T.transaction_value ELSE 0 END) -
+                        SUM(CASE WHEN T.transaction_type = 0 THEN T.transaction_value ELSE 0 END) AS balance
+                    FROM transaction T 
+                    WHERE T.transaction_date BETWEEN :initialDate AND :finalDate
+                ";
+        
+                // Condicionais dinâmicas
+                if ($methodTransaction != "all") {
+                    $sql .= " AND T.transaction_method = :methodTransaction";
+                }
+                if ($categoryTransaction != "all") {
+                    $sql .= " AND T.transaction_category = :categoryTransaction";
+                }
+                if ($accountTransaction != "all") {
+                    $sql .= " AND T.transaction_account = :accountTransaction";
+                }
         
                 // Prepara a query
                 $stmt = $this->connection->prepare($sql);
@@ -202,6 +259,9 @@ if (isset($_GET['action'])) {
             break;
         case 'getTransactions':
             $model->getTransactions();
+            break;
+        case 'getTransactionsValues':
+            $model->getTransactionsValues();
             break;
         case 'deleteTransaction':
             $model->deleteTransaction();

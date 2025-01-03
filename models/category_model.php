@@ -11,7 +11,7 @@
 
         // Função para listar categorias
         function getCategory() {
-            $sql = $this->connection->query("SELECT * FROM $this->table");
+            $sql = $this->connection->query("SELECT * FROM $this->table ORDER BY category_target DESC");
             $resultQuery = $sql->fetchAll(PDO::FETCH_ASSOC);
 
             // Retorna os dados como JSON
